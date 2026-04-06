@@ -4,74 +4,83 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Giới thiệu - VOCAB (Bản chức năng)</title>
-    <!-- Chỉ giữ lại style cơ bản nhất để hiển thị Flash Message cho rõ ràng -->
+    <link rel="stylesheet" href="assets/css/defaut/index.css">
+    <link rel="stylesheet" href="assets/css/defaut/body.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <title>Giới thiệu - VOCAB</title>
     <style>
-        body {
-            font-family: sans-serif;
-            line-height: 1.6;
-            margin: 20px;
-        }
-
         .flash-message {
-            padding: 10px;
-            margin-bottom: 20px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            z-index: 9999;
+            animation: slideIn 0.3s ease-out;
+            max-width: 400px;
         }
 
         .flash-success {
             background: #d4edda;
             color: #155724;
-            border-color: #c3e6cb;
+            border: 1px solid #c3e6cb;
         }
 
         .flash-error {
             background: #f8d7da;
             color: #721c24;
-            border-color: #f5c6cb;
+            border: 1px solid #f5c6cb;
         }
 
         .flash-warning {
             background: #fff3cd;
             color: #856404;
-            border-color: #ffeaa7;
+            border: 1px solid #ffeaa7;
         }
 
-        button {
-            padding: 10px 15px;
-            margin-right: 10px;
-            cursor: pointer;
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
         }
     </style>
 </head>
 
 <body>
-    <!-- Container chứa Flash Message -->
+    <!-- Flash Message Container -->
     <div id="flashMessageContainer"></div>
 
-    <!-- Script xử lý các chức năng chính của trang index -->
+    <!-- Auto Redirect Script -->
     <script>
-        // 1. Chức năng kiểm tra đăng nhập và điều hướng (Redirect)
+        // Kiểm tra đăng nhập và redirect
         (async function checkLoginAndRedirect() {
             try {
                 const response = await fetch('/VOCAB/api/get-session-user.php');
                 const result = await response.json();
 
                 if (result.success) {
-                    // Đã đăng nhập - chuyển hướng theo role
+                    // Đã đăng nhập - redirect theo role
                     if (result.role === 'admin') {
                         window.location.href = '/VOCAB/pages/admin/trangchu_admin.html';
                     } else {
                         window.location.href = '/VOCAB/pages/user/user_Dashboard.html';
                     }
                 }
+                // Nếu chưa đăng nhập, hiển thị trang landing page bình thường
             } catch (error) {
-                console.log('Chưa đăng nhập, giữ ở trang chủ.');
+                console.log('Not logged in, showing landing page');
             }
         })();
 
-        // 2. Chức năng hiển thị Flash message từ thông số URL
+        // Hiển thị flash message từ URL params
         (function showFlashMessage() {
             const urlParams = new URLSearchParams(window.location.search);
             const message = urlParams.get('message');
@@ -93,46 +102,120 @@
                     container.innerHTML = '';
                 }, 5000);
 
-                // Xóa message khỏi URL để tránh refresh lại tự hiện
+                // Xóa message khỏi URL
                 window.history.replaceState({}, document.title, window.location.pathname);
             }
         })();
     </script>
 
-    <!-- Khung Header (Dữ liệu sẽ được include-layout.js nạp vào) -->
-    <div id="header_index">
-        <i>[Header sẽ được load tự động ở đây]</i>
-    </div>
-    <hr>
+    <!-- header -->
+    <div id="header_index"></div>
 
-    <!-- Nội dung chính (Chỉ gồm các thành phần chức năng mộc) -->
-    <div id="content">
-        <h1>VOCAB - Hệ Thống Học Từ Vựng Tiếng Anh</h1>
-        <p>Học từ vựng dễ dàng, ghi nhớ nhanh chóng.</p>
+    <div id="content" class="about-content-wrapper">
 
-        <!-- Các nút chức năng điều hướng chính -->
-        <div>
-            <a href="/VOCAB/pages/dangki.html"><button>Đăng ký ngay</button></a>
-            <a href="/VOCAB/pages/dangnhap.html"><button>Đăng nhập</button></a>
+        <!-- Hero Section -->
+        <div class="about-hero-section">
+            <div class="hero-badge">
+                <i class="fa-solid fa-rocket"></i> Nền tảng học tập thông minh
+            </div>
+            <h1 class="about-hero-title">
+                Học từ vựng Tiếng Anh<br>
+                <span class="gradient-text">Dễ dàng & Hiệu quả</span>
+            </h1>
+            <p class="about-hero-description">
+                Tham gia cộng đồng VOCAB để nâng cao vốn từ vựng của bạn thông qua các bài học tương tác, trò chơi thú
+                vị và kiểm tra định kỳ. Học bất kỳ nơi nào, ở bất kỳ đâu.
+            </p>
+            <a href="/VOCAB/pages/dangki.html" class="premium-btn">
+                Bắt đầu ngay <i class="fa-solid fa-arrow-right"></i>
+            </a>
         </div>
 
-        <br>
-        <h2>Danh sách các chức năng hệ thống:</h2>
-        <ul>
-            <li><strong>Flashcard:</strong> Học từ vựng qua thẻ ghi nhớ.</li>
-            <li><strong>Bài kiểm tra:</strong> Trắc nghiệm & Điền từ.</li>
-            <li><strong>Theo dõi tiến độ:</strong> Thống kê báo cáo, Streak.</li>
-            <li><strong>Phát âm:</strong> Hỗ trợ âm thanh và IPA.</li>
-        </ul>
+        <!-- Tính năng Section -->
+        <div class="about-features-section">
+            <h2 class="section-title">
+                <i class="fa-solid fa-star title-icon" style="color: #f472b6;"></i> Tính năng nổi bật
+            </h2>
+            <div class="features-grid-container">
+                <div class="feature-content">
+                    <div class="feature-header">
+                        <div class="feature-icon-large feature-icon-purple">
+                            <i class="fa-solid fa-folder-plus"></i>
+                        </div>
+                        <h3 class="feature-main-title">Flashcard</h3>
+                        <p class="feature-main-description">Học từ vựng qua các thẻ flashcard sinh động và dễ hiểu, tăng
+                            tốc độ ghi nhớ.</p>
+                    </div>
+                </div>
+
+                <div class="feature-content">
+                    <div class="feature-header">
+                        <div class="feature-icon-large feature-icon-blue">
+                            <i class="fa-solid fa-square-poll-vertical"></i>
+                        </div>
+                        <h3 class="feature-main-title">Theo dõi tiến độ</h3>
+                        <p class="feature-main-description">Xem báo cáo chi tiết về tiến độ học tập và chuỗi ngày học
+                            (Streak motivation).</p>
+                    </div>
+                </div>
+
+                <div class="feature-content">
+                    <div class="feature-header">
+                        <div class="feature-icon-large feature-icon-green">
+                            <i class="fa-solid fa-file-lines"></i>
+                        </div>
+                        <h3 class="feature-main-title">Bài kiểm tra</h3>
+                        <p class="feature-main-description">Đánh giá tiến trình học tập của bạn qua các bài kiểm tra
+                            trắc nghiệm và điền từ.</p>
+                    </div>
+                </div>
+
+                <div class="feature-content">
+                    <div class="feature-header">
+                        <div class="feature-icon-large feature-icon-pink">
+                            <i class="fa-solid fa-volume-high"></i>
+                        </div>
+                        <h3 class="feature-main-title">Phát âm chuẩn</h3>
+                        <p class="feature-main-description">Nghe phát âm từ vựng chuẩn xác và luyện tập trực tiếp theo
+                            phiên âm quốc tế IPA.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Lợi ích Section (Quick Links Cards) -->
+        <div class="benefits-section">
+            <h2 class="section-title">
+                <i class="fa-solid fa-gem title-icon" style="color: #a78bfa;"></i> Lợi ích của VOCAB
+            </h2>
+            <div class="quick-links-grid">
+                <div class="quick-link-card">
+                    <div class="link-card-glow link-glow-blue"></div>
+                    <div class="link-card-icon link-icon-blue">
+                        <i class="fa-solid fa-face-smile-beam"></i>
+                    </div>
+                    <h3 class="link-card-title">Miễn phí & Vui nhộn</h3>
+                    <p class="link-card-description">Học cùng VOCAB rất vui nhộn. Các bài học nhỏ gọn sẽ giúp bạn ghi
+                        nhớ hiệu quả.</p>
+                </div>
+
+                <div class="quick-link-card">
+                    <div class="link-card-glow link-glow-green"></div>
+                    <div class="link-card-icon link-icon-green">
+                        <i class="fa-solid fa-fire"></i>
+                    </div>
+                    <h3 class="link-card-title">Tiếp thêm động lực</h3>
+                    <p class="link-card-description">Xây dựng thói quen học tập, tạo môi trường học năng động với hệ
+                        thống Gamification.</p>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <hr>
-    <!-- Khung Footer (Dữ liệu sẽ được include-layout.js nạp vào) -->
-    <div id="footer">
-        <i>[Footer sẽ được load tự động ở đây]</i>
-    </div>
 
-    <!-- Script nạp giao diện Header/Footer dùng chung -->
+    <!-- footer -->
+    <div id="footer"></div>
+
     <script src="assets/js/defaut/include-layout.js" defer></script>
 </body>
 
