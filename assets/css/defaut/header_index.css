@@ -1,0 +1,34 @@
+#header_index {
+    display: flex;
+    justify-content: space-between; /* Logo trái, menu phải với khoảng cách tối đa */
+    align-items: center;
+    padding: 0.5rem 2rem;
+    background: #fff;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+    width: 100%;
+}
+
+/* Logo - bên trái */
+#header_index .logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-shrink: 0; /* Không cho logo bị co lại */
+}
+
+#header_index .logo svg {
+    width: 2rem;
+    height: 2rem;
+    flex-shrink: 0;
+}
+
+#header_index .logo p {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #7BB7EE;
+    margin: 0;
+    line-height: 1;
+}
+
+
