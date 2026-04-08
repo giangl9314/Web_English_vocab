@@ -1,0 +1,252 @@
+/* --- 1. CẤU TRÚC CƠ BẢN --- */
+/* Styles kế thừa từ body.css: *, body, #main, #tieu_de_trang */
+
+body {
+    background-color: #f4f7f6;
+}
+
+.page-content {
+    padding: 20px;
+}
+
+
+/* --- 2. HEADER --- */
+
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.page-title {
+    margin: 0;
+    font-size: 24px;
+    color: #333;
+    font-weight: 700;
+}
+
+.page-subtitle {
+    margin: 4px 0 0;
+    color: #666;
+    font-size: 14px;
+}
+
+
+/* Nút Export */
+
+.btn-export {
+    background-color: #10B981;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background 0.2s;
+}
+
+.btn-export:hover {
+    background-color: #059669;
+}
+
+
+/* --- 3. TOOLBAR (SEARCH & FILTER) --- */
+
+.toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-bottom: 20px;
+    justify-content: space-between;
+    align-items: center;
+    background: #fff;
+    padding: 16px;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.filter-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+
+/* Search Box */
+
+.search-bar {
+    position: relative;
+    width: 200px;
+}
+
+.search-bar i {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #999;
+}
+
+.search-bar input {
+    width: 100%;
+    padding: 10px 10px 10px 36px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.search-bar input:focus {
+    border-color: #3B82F6;
+}
+
+
+/* Date Filter */
+
+.date-group label {
+    font-size: 14px;
+    color: #555;
+    font-weight: 500;
+}
+
+.date-input {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-family: inherit;
+    color: #333;
+}
+
+.separator {
+    color: #999;
+}
+
+.form-select {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+    color: #333;
+    cursor: pointer;
+}
+
+
+/* ========================================= */
+
+
+/* 4. TABLE (BẢNG DỮ LIỆU) - QUAN TRỌNG      */
+
+
+/* ========================================= */
+
+.table-container {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    overflow-x: auto;
+    margin-bottom: 20px;
+    border: 1px solid #E5E7EB;
+}
+
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: auto;
+    min-width: 1000px;
+}
+
+.admin-table th,
+.admin-table td {
+    padding: 14px 12px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+    font-size: 14px;
+    vertical-align: middle;
+    color: #4B5563;
+    word-wrap: break-word;
+}
+
+.admin-table th {
+    background-color: #F9FAFB;
+    color: #374151;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+
+/* --- ĐỊNH NGHĨA ĐỘ RỘNG CỘT --- */
+
+.col-stt {
+    width: 50px;
+    text-align: center !important;
+}
+
+.col-action {
+    width: 180px;
+    font-weight: 500;
+    color: #111;
+}
+
+.col-target {
+    width: 80px;
+    text-align: center !important;
+}
+
+.col-admin {
+    width: 150px;
+}
+
+.col-ip {
+    width: 130px;
+    font-family: monospace;
+    color: #64748b;
+}
+
+/* Cột thời gian - đã hoán đổi vị trí với thiết bị */
+.col-time {
+    width: 150px;
+    text-align: center !important;
+}
+
+/* Cột thiết bị - đã hoán đổi vị trí với thời gian */
+.col-ua {
+    width: 250px;
+    text-align: right !important;
+}
+
+
+/* --- CLASS CẮT CHỮ (TRUNCATE) - Đã tắt để hiện full text --- */
+
+.truncate-cell {
+    word-wrap: break-word;
+    white-space: normal;
+}
+
+.admin-table tr:hover {
+    background-color: #F9FAFB;
+}
+
+
+/* Sort Header */
+
+th.sortable {
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.2s;
+}
+
+th.sortable:hover {
+    background-color: #e2e8f0;
+}
+
+th.sortable i {
+    margin-left: 6px;
+    font-size: 12px;
+    color: #94a3b8;
+}
