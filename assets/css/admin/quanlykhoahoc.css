@@ -1,0 +1,342 @@
+/* --- GLOBAL --- */
+/* Styles kế thừa từ body.css: *, body, #main, #tieu_de_trang */
+
+#content {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    background-color: #F9FAFB;
+}
+
+.page-content {
+    padding: 24px;
+    min-width: 0;
+    max-width: 100%;
+}
+
+
+/* --- HEADER --- */
+
+.page-header {
+    margin-bottom: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.page-title {
+    margin: 0 0 5px 0;
+    font-size: 22px;
+    color: #111;
+    font-weight: 700;
+}
+
+.page-header p {
+    margin: 0;
+    color: #666;
+    font-size: 14px;
+}
+
+.toolbar {
+    background: #fff;
+    padding: 15px 20px;
+    border-radius: 8px 8px 0 0;
+    border: 1px solid #E5E7EB;
+    border-bottom: none;
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 20px;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    z-index: 1;
+}
+
+.search-bar {
+    position: relative;
+    flex: 1 1 auto;
+    max-width: 400px;
+    min-width: 250px;
+}
+
+.search-bar i {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #9CA3AF;
+    z-index: 1;
+}
+
+.search-bar input {
+    width: 100%;
+    padding: 10px 10px 10px 36px;
+    border: 1px solid #D1D5DB;
+    border-radius: 6px;
+    outline: none;
+    height: 40px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+.search-bar input:focus {
+    border-color: #5B9BD5;
+}
+
+.filter-group {
+    flex: 0 0 auto;
+}
+
+.filter-group select {
+    height: 40px;
+    width: 180px;
+    border: 1px solid #D1D5DB;
+    border-radius: 6px;
+    padding: 0 10px;
+    cursor: pointer;
+    background-color: #fff;
+    box-sizing: border-box;
+}
+
+.btn-primary {
+    background-color: #5B9BD5;
+    color: white;
+    border: none;
+    padding: 0 16px;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    height: 40px;
+    white-space: nowrap;
+}
+
+.btn-primary:hover {
+    background-color: #4A8AC9;
+}
+
+
+/* --- TABLE --- */
+
+.table-container {
+    background: #fff;
+    border: 1px solid #E5E7EB;
+    border-radius: 0 0 8px 8px;
+    overflow-x: auto;
+    width: 100%;
+    position: relative;
+}
+
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 900px;
+    table-layout: fixed;
+}
+
+.admin-table th {
+    background-color: #F9FAFB;
+    color: #374151;
+    padding: 10px 12px;
+    border-bottom: 1px solid #E5E7EB;
+    text-align: left;
+    font-size: 13px;
+    white-space: nowrap;
+    vertical-align: middle;
+}
+
+.admin-table td {
+    padding: 12px;
+    border-bottom: 1px solid #F3F4F6;
+    color: #4B5563;
+    font-size: 14px;
+    vertical-align: middle;
+    word-wrap: break-word;
+}
+
+.admin-table tr:hover {
+    background-color: #F9FAFB;
+}
+
+/* Column widths - Optimized for menu collapsed view */
+.admin-table th:nth-child(1),
+.admin-table td:nth-child(1) {
+    width: 50px;
+    text-align: center;
+}
+
+.admin-table th:nth-child(2),
+.admin-table td:nth-child(2) {
+    width: 100px;
+}
+
+.admin-table th:nth-child(3),
+.admin-table td:nth-child(3) {
+    width: 180px;
+}
+
+.admin-table th:nth-child(4),
+.admin-table td:nth-child(4) {
+    width: 150px;
+}
+
+.admin-table th:nth-child(5),
+.admin-table td:nth-child(5) {
+    width: 110px;
+}
+
+.admin-table th:nth-child(6),
+.admin-table td:nth-child(6) {
+    width: 140px;
+    white-space: nowrap;
+}
+
+.admin-table th:nth-child(7),
+.admin-table td:nth-child(7) {
+    width: 100px;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.admin-table th:last-child,
+.admin-table td:last-child {
+    width: 120px;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.status-badge {
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.status-badge.public {
+    background-color: #DEF7EC;
+    color: #03543F;
+}
+
+.status-badge.private {
+    background-color: #F3F4F6;
+    color: #6B7280;
+}
+
+.btn-action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 4px;
+    margin: 0 2px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+.btn-action:hover {
+    background-color: #F3F4F6;
+}
+
+.btn-edit {
+    color: #2563EB;
+}
+
+.btn-vocab {
+    color: #059669;
+}
+
+.btn-vocab-view {
+    color: #6B7280;
+}
+
+.btn-delete {
+    color: #DC2626;
+}
+
+.text-center {
+    text-align: center !important;
+}
+
+.w-50 {
+    width: 50px !important;
+    min-width: 50px !important;
+}
+
+.text-red {
+    color: red;
+}
+
+th.sortable {
+    cursor: pointer;
+    user-select: none;
+}
+
+th.sortable i {
+    margin-left: 5px;
+    font-size: 11px;
+    color: #9CA3AF;
+}
+
+
+/* --- PAGINATION --- */
+
+.pagination-container {
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    background: #fff;
+    border-top: 1px solid #E5E7EB;
+    flex-wrap: wrap;
+}
+
+.page-btn {
+    min-width: 36px;
+    height: 36px;
+    padding: 0 10px;
+    border: 1px solid #E5E7EB;
+    background: #fff;
+    border-radius: 6px;
+    cursor: pointer;
+    color: #6B7280;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 2px;
+}
+
+.page-btn:hover:not(:disabled) {
+    background-color: #F3F4F6;
+    color: #111;
+    border-color: #D1D5DB;
+}
+
+.page-btn.active {
+    background-color: #3B82F6;
+    color: #fff;
+    border-color: #3B82F6;
+}
+
+.page-btn:disabled {
+    background-color: #F9FAFB;
+    color: #D1D5DB;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.page-dots {
+    display: flex;
+    align-items: flex-end;
+    padding: 0 5px;
+    color: #9CA3AF;
+    font-weight: bold;
+}
