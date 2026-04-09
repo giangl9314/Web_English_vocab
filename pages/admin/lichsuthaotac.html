@@ -1,27 +1,69 @@
-<!DOCTYPE html> 
-<html lang="vi"> 
-<head> 
-    <h1 class="page-title">Lịch sử thao tác</h1>
-    <p class="page-subtitle">Theo dõi hoạt động admin</p>
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Lịch sử thao tác</title>
+
     <link rel="stylesheet" href="../../assets/css/defaut/header_admin.css">
     <link rel="stylesheet" href="../../assets/css/admin/lichsuthaotac.css">
-</head> 
+</head>
 
-<table class="admin-table">
-    <div id="placeholder-menu"></div>
-    <div id="placeholder-header"></div>
-    <thead>
-        <tr>
-            <th>STT</th>
-            <th>Hành động</th>
-            <th>ID</th>
-            <th>Admin</th>
-            <th>IP</th>
-            <th>Thời gian</th>
-            <th>Thiết bị</th>
-        </tr>
-    </thead>
-    <input type="text" id="searchLogBox">
-    <tbody id="log_table_body"></tbody>
-</table>
+<body>
+    <div class="page-header"> 
+        <div class="header-text"> 
+            <h1 class="page-title">Lịch sử thao tác</h1> 
+            <p class="page-subtitle">Theo dõi các hành động của Admin trong hệ thống</p> 
+        </div> 
+        <button class="btn-export" id="btnExportCSV"> 
+            <i class="fa-solid fa-file-export"></i> Xuất Excel (CSV) 
+        </button> 
+    </div>
+    
+    
+    <div class="toolbar">
+        <div class="filter-group search-group"> 
+            <div class="search-bar"> 
+                <i class="fa-solid fa-magnifying-glass"></i> 
+                <input type="text" id="searchLogBox" placeholder="Tìm kiếm hành động..."> 
+            </div> 
+        </div> 
+    </div>
+    <div class="filter-group date-group" style="gap: 8px;"> 
+        <select id="quickTimeSelect" class="form-select" style="padding: 8px; border-radius: 6px; border: 1px solid #ddd; outline: none; cursor: pointer;"> 
+            <option value="custom">-- Tùy chỉnh --</option> 
+            <option value="today">Hôm nay</option> 
+            <option value="yesterday">Hôm qua</option> 
+            <option value="last_7_days" selected>7 ngày qua</option> <option value="this_month">Tháng này</option> 
+            <option value="all">Tất cả</option> 
+        </select> 
+                   
+        <div class="custom-date-inputs" style="display: flex; gap: 5px; align-items: center;"> 
+            
+            <input type="date" id="filterStartDate" class="date-input"> 
+            <span class="separator">-</span> 
+            <input type="date" id="filterEndDate" class="date-input"> 
+        </div>
+        <div id="pagination"></div> 
+    </div> 
+        
+    <table class="admin-table">
+        <thead>
+            <tr>
+                <th>STT</th>
+                <th>Hành động</th>
+                <th>ID</th>
+                <th>Admin</th>
+                <th>IP</th>
+                <th>Thời gian</th>
+                <th>Thiết bị</th>
+            </tr>
+        </thead>
+        <tbody id="log_table_body"></tbody>
+        
+        
+    </table>
+    
+    <script src="../../assets/js/admin/lichsuthaotac.js"></script>
+    
+</body>
 </html>
