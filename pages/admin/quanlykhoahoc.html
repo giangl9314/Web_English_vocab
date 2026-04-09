@@ -1,0 +1,57 @@
+<!DOCTYPE html> 
+<html lang="vi"> 
+<head> 
+    <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"> 
+    <meta http-equiv="Pragma" content="no-cache"> 
+    <meta http-equiv="Expires" content="0"> 
+    <title>Quản lý khóa học - Admin</title> 
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"> 
+    <link rel="stylesheet" href="../../assets/css/defaut/menu_admin.css"> 
+    <link rel="stylesheet" href="../../assets/css/defaut/header_admin.css"> 
+    <link rel="stylesheet" href="../../assets/css/admin/quanlykhoahoc.css"> 
+</head> 
+
+<body id="app-container"> 
+    <div id="placeholder-menu"></div> 
+    <div class="main-wrapper"> 
+        <div id="placeholder-header"></div> 
+        <div id="content"> 
+            <main class="page-content"> 
+                <div class="page-header"> 
+                    <div> 
+                        <h1 class="page-title">Quản lý khóa học</h1> 
+                        <p>Danh sách các khóa học đã xuất bản</p> 
+                    </div> 
+                    <button class="btn-primary" id="btnOpenAddModal"> 
+                        <i class="fa-solid fa-plus"></i> Tạo khóa học mới 
+                    </button> 
+                </div> 
+                <div class="toolbar"> 
+                    <div class="search-bar"> 
+                        <i class="fa-solid fa-magnifying-glass"></i> 
+                        <input type="text" id="searchCourseBox" placeholder="Tìm kiếm tên hoặc mã khóa học..."> 
+                    </div> 
+                    <div class="filter-group"> 
+                        <select id="filterStatus">
+                            <option value="">Trạng thái</option> 
+                            <option value="active">Công khai</option> 
+                            <option value="hidden">Riêng tư</option> 
+                        </select> 
+                    </div> 
+                </div>
+               
+                <div id="pagination" class="pagination-container"></div> 
+            </main> 
+        </div>
+    </div>
+    
+    <script src="../../assets/js/defaut/sync_validator.js"></script> 
+    <script src="../../assets/js/defaut/sync_manager.js"></script> 
+    <script src="../../assets/js/defaut/sync_helpers.js"></script> 
+    <script src="../../assets/js/admin/layout_admin.js"></script> 
+    <script src="../../assets/js/admin/quanlykhoahoc.js"></script> 
+</body> 
+</html> 
