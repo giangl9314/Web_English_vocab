@@ -42,15 +42,95 @@
                         </select> 
                     </div> 
                 </div>
-               
+                <div class="table-container"> 
+                    <table class="admin-table"> 
+                        <thead> 
+                            <tr> 
+                                <th class="w-50 text-center">STT</th> 
+                                <th class="sortable" data-sort="course_code">Mã KH <i class="fa-solid fa-sort"></i></th> 
+                                <th class="sortable" data-sort="course_name">Tên khóa học <i class="fa-solid fa-sort"></i></th> 
+                                <th>Tags</th> 
+                                <th>Người tạo</th> 
+                                <th class="sortable" data-sort="created_at">Ngày tạo <i class="fa-solid fa-sort"></i></th> 
+                                <th class="text-center sortable" data-sort="visibility">Trạng thái <i class="fa-solid fa-sort"></i></th> 
+                                <th class="text-center">Hành động</th> 
+                            </tr> 
+                        </thead> 
+                        <tbody id="course_table_body"></tbody> 
+                    </table>
+                </div> 
                 <div id="pagination" class="pagination-container"></div> 
             </main> 
         </div>
     </div>
-    
+    <div id="toast-container"></div> 
+    <div id="courseModal" class="modal"> 
+        <div class="modal-content modern-modal"> 
+            <div class="modal-header no-border"> 
+                <h3 id="modalTitle" class="modal-title-bold">Thêm Khóa học Mới</h3> 
+                <span id="btnCloseCourseModal" class="close-btn">&times;</span> 
+            </div> 
+            <div class="modal-body"> 
+                <input type="hidden" id="courseId"> 
+                <div class="form-group"> 
+                    <label>Tên khóa học <span class="text-red">*</span></label> 
+                    <input type="text" id="courseName" class="input-modern" placeholder="Ví dụ: Tiếng Anh Giao Tiếp..."> 
+                </div> 
+                <div class="form-row"> 
+                    <div class="form-group half-width"> 
+                        <label>Trạng thái</label> 
+                        <select id="courseStatus" class="input-modern"> 
+                            <option value="active">Công khai</option> 
+                            <option value="hidden">Riêng tư</option> 
+                        </select> 
+                    </div> 
+                    <div class="form-group half-width"> 
+                        <label>Thẻ (Tags) <span class="text-red">*</span></label> 
+                        <div class="input-group-icon"> 
+                            <input type="text" id="courseTag" class="input-modern input-readonly" readonly placeholder="Chọn chủ đề..."> 
+                            <button id="btnOpenTagModal" class="btn-icon-inside"> 
+                                <i class="fa-solid fa-tags"></i> 
+                            </button> 
+                        </div> 
+                    </div> 
+                </div> 
+                <div class="form-group"> 
+                    <label>Mô tả chi tiết</label> 
+                    <textarea id="courseDescription" class="input-modern" rows="4" placeholder="Giới thiệu nội dung khóa học..."></textarea> 
+                </div> 
+            </div> 
+            <div class="modal-footer no-border"> 
+                <button id="btnCancelCourseModal" class="btn-cancel-gray">Hủy bỏ</button> 
+                <button id="saveCourseBtn" class="btn-save-blue">Lưu & Tiếp tục</button> 
+            </div> 
+        </div> 
+    </div> 
+    <div id="tagModal" class="modal"> 
+        <div class="modal-content small-modal"> 
+            <div class="modal-header header-border"> 
+                <h3 class="modal-title-bold">Quản lý Thẻ</h3> 
+                <span id="btnCloseTagModal" class="close-btn">&times;</span> 
+            </div> 
+            <div class="modal-body tag-body-padding"> 
+                <div class="tag-section-label"> 
+                    <i class="fa-solid fa-check-circle text-green"></i> Thẻ đã chọn: 
+                </div> 
+                <div id="khung-tag-da-chon" class="tag-list-container active-tags"></div> 
+                <div class="tag-section-label label-margin-top"> 
+                    <i class="fa-solid fa-lightbulb text-orange"></i> Gợi ý sẵn có: 
+                </div> 
+                <div id="khung-tag-goi-y" class="tag-list-container suggestion-tags"></div> 
+            </div> 
+            <div class="modal-footer footer-center no-border"> 
+                <button id="btnConfirmTag" class="btn-save-blue btn-full-width">Xác nhận chọn</button> 
+            </div> 
+        </div> 
+    </div> 
+
     <script src="../../assets/js/defaut/sync_validator.js"></script> 
     <script src="../../assets/js/defaut/sync_manager.js"></script> 
     <script src="../../assets/js/defaut/sync_helpers.js"></script> 
+    <script src="../../assets/js/defaut/auth_check.js"></script>         
     <script src="../../assets/js/admin/layout_admin.js"></script> 
     <script src="../../assets/js/admin/quanlykhoahoc.js"></script> 
 </body> 
