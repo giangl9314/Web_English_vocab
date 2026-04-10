@@ -380,3 +380,146 @@
 #main .nut-icon.nut-xoa-tu:hover {
     color: #d9534f;
 }
+
+/* Responsive */
+
+@media (max-width: 56.25em) { /* 900px */
+    #main {
+        padding: 1rem;
+    }
+    
+    #main .khung-noi-dung-chinh {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    #main .khung-chua-danh-sach {
+        min-height: 20rem;
+        max-height: 25rem;
+    }
+    
+    #main .tieu-de-chinh {
+        font-size: 1.5rem;
+    }
+    
+    #main .khung-nhap-lieu,
+    #main .khung-danh-sach {
+        padding: 1.5rem;
+    }
+}
+
+@media (max-width: 37.5em) { /* 600px */
+    #main {
+        margin: 0.5rem auto;
+        padding: 0.75rem;
+    }
+    
+    #main .hang-form {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    #main .khung-nhap-lieu,
+    #main .khung-danh-sach {
+        padding: 1rem;
+    }
+    
+    #main .tieu-de-chinh {
+        font-size: 1.375rem;
+    }
+    
+    #main .tieu-de-phu {
+        font-size: 0.9375rem;
+    }
+    
+    #main .the-tu-vung {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+    }
+    
+    #main .hanh-dong-tu {
+        width: 100%;
+        justify-content: flex-end;
+    }
+    
+    #main .khung-nut-cuoi-trang {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    #main .khung-nut-cuoi-trang button {
+        width: 100%;
+    }
+    
+    #toast-container {
+        left: 1rem;
+        right: 1rem;
+        top: 1rem;
+    }
+    
+    .toast-msg {
+        min-width: auto;
+    }
+}
+/* Empty state */
+#main .thong-bao-rong {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: #9ca3af;
+    font-size: 1rem;
+    font-style: italic;
+}
+
+#main .thong-bao-rong::before {
+    content: '📝';
+    display: block;
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+}
+
+/* --- TOAST NOTIFICATION STYLES --- */
+#toast-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.toast-msg {
+    background: linear-gradient(135deg, #10b981, #059669);
+    color: white;
+    padding: 14px 24px;
+    border-radius: 8px;
+    box-shadow: 0 4px 16px rgba(16, 185, 129, 0.3);
+    
+    font-family: 'Roboto', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    min-width: 250px;
+
+    opacity: 0;
+    transform: translateX(100px);
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+}
+
+.toast-msg.show {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.toast-msg i {
+    margin-right: 12px;
+    font-size: 1.25em;
+}
+
+.toast-msg.error {
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+    box-shadow: 0 4px 16px rgba(239, 68, 68, 0.3);
+}
