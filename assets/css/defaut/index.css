@@ -1,262 +1,242 @@
-/* ============================================
-   INDEX.CSS – Premium Landing Page Styles
-============================================ */
-
-/* Hero Section */
-.about-hero-section {
-    text-align: center;
-    margin-bottom: 6rem;
-    transition: opacity 0.3s ease;
-    padding-top: 4rem;
+#content {
+    background-color: #C2E2FA;
 }
 
-.hero-badge {
-    display: inline-flex;
+/* ===============================
+   SECTION: GIỚI THIỆU
+   =============================== */
+.intro-section {
+    display: flex;
     align-items: center;
-    gap: 0.5rem;
-    padding: 0.5rem 1.25rem;
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 50px;
-    font-size: 0.875rem;
-    font-weight: 600;
-    margin-bottom: 2rem;
-    animation: float-badge 3s ease-in-out infinite;
+    justify-content: space-between;
+    padding: 4rem 10%;
+    gap: 3rem;
 }
 
-@keyframes float-badge {
-
-    0%,
-    100% {
-        transform: translateY(0);
-    }
-
-    50% {
-        transform: translateY(-8px);
-    }
+.intro-text {
+    flex: 1;
 }
 
-.about-hero-title {
-    font-size: clamp(2.5rem, 8vw, 5rem);
-    font-weight: 900;
-    line-height: 1.1;
-    margin-bottom: 1.5rem;
-    letter-spacing: -1px;
+.intro-text h1 {
+    font-size: 2.25rem;
+    color: #3b3b3b;
+    margin-bottom: 1rem;
 }
 
-.gradient-text {
-    background: linear-gradient(135deg, #60a5fa, #a78bfa, #f472b6);
-    background-size: 200% 200%;
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    animation: gradient-shift 4s ease infinite;
-}
-
-@keyframes gradient-shift {
-
-    0%,
-    100% {
-        background-position: 0% 50%;
-    }
-
-    50% {
-        background-position: 100% 50%;
-    }
-}
-
-.about-hero-description {
-    font-size: 1.25rem;
-    color: rgba(255, 255, 255, 0.8);
-    max-width: 700px;
-    margin: 0 auto 2rem auto;
-    line-height: 1.8;
-}
-
-/* Premium Buttons */
-.premium-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.75rem;
-    padding: 1rem 2.5rem;
-    background: linear-gradient(135deg, #a78bfa, #ec4899);
-    color: white;
-    font-weight: bold;
+.intro-text p {
     font-size: 1.125rem;
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 0.5rem;
+}
+
+.intro-image {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.intro-image img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 1rem;
+}
+
+/* ===============================
+   CTA BUTTON
+   =============================== */
+.get-started-button {
+    display: inline-block;
+    padding: 0.75rem 2rem;
+    background: linear-gradient(90deg, #5B9BD5, #7BB7EE);
+    color: #fff;
+    font-weight: 600;
+    font-size: 1.125rem;
+    border-radius: 0.75rem;
     text-decoration: none;
-    border-radius: 50px;
     transition: all 0.3s ease;
-    box-shadow: 0 10px 30px rgba(236, 72, 153, 0.3);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.premium-btn:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 15px 40px rgba(236, 72, 153, 0.5);
+.get-started-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+    background: linear-gradient(90deg, #7BB7EE, #5B9BD5);
 }
 
-/* Features Section */
-.about-features-section {
-    margin-bottom: 6rem;
+
+/* ===============================
+   SECTION: TÍNH NĂNG
+   =============================== */
+.features-section {
+    padding: 4rem 10%;
+    text-align: center;
 }
 
-.features-grid-container {
+.features-section h2 {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    color: #333;
+}
+
+.features-container {
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(4, 1fr);
     gap: 2rem;
-    align-items: start;
+    justify-items: center;
 }
 
-@media (min-width: 1024px) {
-    .features-grid-container {
-        grid-template-columns: 1fr 1fr;
-        gap: 3rem;
-    }
+
+.feature-item {
+    background-color: #fff;
+    border-radius: 0.75rem;
+    padding: 2rem 1rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.feature-content {
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 2rem;
-    padding: 3rem;
+.feature-item:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+}
+
+.feature-icon {
+    font-size: 2rem;
+    color: #7BB7EE;
+    margin-bottom: 1rem;
+}
+
+.feature-item h3 {
+    font-size: 1.25rem;
+    color: #333;
+    margin-bottom: 0.5rem;
+}
+
+.feature-item p {
+    font-size: 1rem;
+    color: #555;
+    line-height: 1.5;
+}
+
+/* ===============================
+   SECTION: LỢI ÍCH
+   =============================== */
+.benefits-section {
+    padding: 3rem 10%;
+}
+
+.benefits-section h2 {
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 2.5rem;
+    text-align: center;
+}
+
+.benefits-item {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    margin-bottom: 2rem;
+    background-color: #fff;
+    padding: 1.5rem 2rem;
+    border-radius: 0.75rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.feature-content:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
-    border-color: rgba(255, 255, 255, 0.2);
+.benefits-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-.feature-header {
+/* Hình ảnh bên trái */
+.benefit-image {
+    flex: 0 0 200px;
+    /* Chiều rộng cố định 200px */
     display: flex;
-    align-items: flex-start;
-    flex-direction: column;
-    gap: 1.5rem;
-    margin-bottom: 1.5rem;
-}
-
-.feature-icon-large {
-    width: 70px;
-    height: 70px;
-    background: linear-gradient(135deg, #60a5fa, #a78bfa);
-    border-radius: 20px;
-    display: flex;
-    align-items: center;
     justify-content: center;
-    font-size: 2rem;
-    flex-shrink: 0;
+    align-items: center;
 }
 
-.feature-icon-green {
-    background: linear-gradient(135deg, #10b981, #06b6d4);
+.benefit-image img {
+    width: 100%;
+    max-width: 200px;
+    height: auto;
+    border-radius: 0.5rem;
 }
 
-.feature-icon-pink {
-    background: linear-gradient(135deg, #f472b6, #fb923c);
+/* Nội dung bên phải */
+.benefit-content {
+    flex: 1;
+    text-align: left;
 }
 
-.feature-icon-purple {
-    background: linear-gradient(135deg, #a78bfa, #ec4899);
+.benefit-content h3 {
+    font-size: 1.5rem;
+    color: #333;
+    margin-bottom: 0.75rem;
+    font-weight: 600;
 }
 
-.feature-main-title {
-    font-size: 1.75rem;
-    font-weight: 800;
-    margin: 0;
-}
-
-.feature-main-description {
-    font-size: 1.1rem;
-    color: rgba(255, 255, 255, 0.8);
+.benefit-content p {
+    font-size: 1rem;
+    color: #555;
     line-height: 1.6;
 }
 
-/* Quick Links / Benefits */
-.quick-links-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 2rem;
-    margin-bottom: 6rem;
+
+
+@media (max-width: 992px) {
+    .intro-section {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .intro-image {
+        margin-top: 2rem;
+    }
+
+    .benefits-item {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    .benefit-image {
+        flex: 0 0 auto;
+    }
+
+    .benefit-content {
+        text-align: center;
+    }
+
+    .features-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }
 
-.quick-link-card {
-    position: relative;
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 1.5rem;
-    padding: 2.5rem;
-    text-align: center;
-    transition: all 0.4s ease;
-    overflow: hidden;
-}
+@media (max-width: 600px) {
+    .intro-text h1 {
+        font-size: 1.75rem;
+    }
 
-.quick-link-card:hover {
-    transform: translateY(-12px);
-    border-color: rgba(255, 255, 255, 0.3);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-}
+    .intro-text p {
+        font-size: 1rem;
+    }
 
-.link-card-glow {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 200px;
-    height: 200px;
-    border-radius: 50%;
-    filter: blur(60px);
-    opacity: 0;
-    transition: opacity 0.4s ease;
-}
+    .features-section h2,
+    .benefits-section h2 {
+        font-size: 1.5rem;
+    }
 
-.quick-link-card:hover .link-card-glow {
-    opacity: 0.4;
-}
+    .benefit-content h3 {
+        font-size: 1.25rem;
+    }
 
-.link-glow-blue {
-    background: #60a5fa;
-}
+    .benefit-content p {
+        font-size: 1rem;
+    }
 
-.link-glow-green {
-    background: #10b981;
-}
-
-.link-card-icon {
-    width: 70px;
-    height: 70px;
-    margin: 0 auto 1.5rem auto;
-    border-radius: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 2rem;
-    background: linear-gradient(135deg, #a78bfa, #ec4899);
-}
-
-.link-card-title {
-    font-size: 1.5rem;
-    font-weight: 700;
-    margin: 0 0 0.75rem 0;
-    color: white;
-}
-
-.link-card-description {
-    font-size: 1rem;
-    color: rgba(255, 255, 255, 0.7);
-    margin: 0;
-}
-
-.section-title {
-    text-align: center;
-    font-size: 2.5rem;
-    font-weight: 900;
-    margin-bottom: 3rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 1rem;
+    .features-container {
+        grid-template-columns: 1fr;
+    }
 }
