@@ -45,4 +45,11 @@
 	<div class="ban_quyen">
 		<span id="nam_hien_tai"></span> © VOCAB. Bảo lưu mọi quyền.
 	</div>
+	<script>
+		// Đặt năm hiện tại tự động
+		(function(){
+			var el = document.getElementById('nam_hien_tai');
+			if(el) el.textContent = new Date().getFullYear();
+		})();
+	</script>
 </footer>
