@@ -58,7 +58,18 @@
     gap: 0.75rem; /* 12px */
 }
 
-
+#main .nut-hanh-dong-tren {
+    padding: 0.625rem 1.25rem; /* 10px 20px */
+    border: none;
+    border-radius: 0.5rem; /* 8px */
+    font-size: 0.9375rem; /* 15px */
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem; /* 8px */
+}
 #main .nut-hanh-dong-tren.nut-xanh {
     background-color: #2D5BFF;
     color: white;
@@ -222,7 +233,21 @@
     gap: 0.75rem; /* 12px */
     margin-bottom: 1.5rem; /* Cách danh sách bên dưới */
 }
-
+/* Nút học tập - giống nút Trở về */
+#main .nut-hoc-tap {
+    padding: 0.75rem 1.5rem; /* 12px 24px */
+    font-size: 1rem; /* 16px */
+    font-weight: 500;
+    border-radius: 0.5rem; /* 8px */
+    cursor: pointer;
+    border: 1px solid #D0E8F7;
+    background-color: #E8F4FD;
+    color: #5B7FBD;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem; /* 8px - Khoảng cách icon và text */
+}
 #main .nut-hoc-tap:hover {
     background-color: #D4E9F8;
     border-color: #B8DAF0;

@@ -1,7 +1,7 @@
 /* --- 1. CẤU TRÚC CHUNG --- */
 
 .trangchu-page {
-    padding: 24px
+    padding: 24px;
     width: 100%;
     box-sizing: border-box;
 }
@@ -56,7 +56,22 @@
     align-items: center;
     justify-content: center;
     font-size: 20px;
-    flex-shrink: 1; /* sai logic */
+    flex-shrink: 0;
+}
+
+.icon-box.blue {
+    background: #EFF6FF;
+    color: #3B82F6;
+}
+
+.icon-box.green {
+    background: #ECFDF5;
+    color: #10B981;
+}
+
+.icon-box.orange {
+    background: #FFF7ED;
+    color: #F97316;
 }
 
 .stat-card h2 {
@@ -76,14 +91,14 @@
 
 .dashboard-grid {
     display: grid;
-    grid-template-columns: 360px 1fr
+    grid-template-columns: 360px 1fr;
     gap: 24px;
     align-items: stretch;
 }
 
 @media (max-width: 1200px) {
     .dashboard-grid {
-        grid-template-columns: 1fr 1fr; /* sai responsive */
+        grid-template-columns: 1fr
     }
 }
 
@@ -98,13 +113,15 @@
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
     display: flex;
     flex-direction: column;
-    min-width: auto; /* sai */
-    height: auto; /* sai */
+    /* QUAN TRỌNG: Để widget co giãn được bên trong grid mà không phá bố cục */
+    min-width: 0;
+    height: 100%;
+    /* Chiếm full chiều cao của dòng grid */
     box-sizing: border-box;
 }
 
 .widget.full-width {
-    grid-column: 1 / 2; /* sai span */
+    grid-column: 1 / -1;
     margin-top: 0;
 }
 
@@ -126,14 +143,21 @@
     list-style: none;
     padding: 0;
     margin: 0;
+    flex-grow: 1;
 }
 
 .activity-item {
-    display: block; /* phá layout flex */
-    align-items: center;
+    display: flex;
+    /* Bắt buộc dàn ngang */
+    align-items: flex-start;
+    /* Căn trên cùng */
     gap: 12px;
     padding: 12px 0;
     border-bottom: 1px solid #F3F4F6;
+}
+
+.activity-item:last-child {
+    border-bottom: none;
 }
 
 .icon-box-small {
@@ -142,13 +166,27 @@
     background: #F3F4F6;
     color: #6B7280;
     border-radius: 50%;
-    display: inline-block; /* sai */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    flex-shrink: 0;
+}
+
+.activity-text {
+    flex-grow: 1;
 }
 
 .activity-text p {
     margin: 0 0 4px 0;
     font-size: 13px;
     color: #374151;
+    line-height: 1.4;
+}
+
+.activity-text strong {
+    color: #111;
+    font-weight: 600;
 }
 
 .activity-text span {
@@ -162,14 +200,17 @@
 .chart-box {
     width: 100%;
     position: relative;
-    min-height: 100px; /* quá thấp */
+    flex-grow: 1;
+    /* Chiếm hết chiều cao còn lại của widget */
+    min-height: 350px;
+    /* Chiều cao tối thiểu, làm chuẩn cho cột bên cạnh cao theo */
 }
 
 #toast-container {
-    position: absolute; /* sai fixed */
+    position: fixed;
     top: 20px;
     right: 20px;
-    z-index: 1;
+    z-index: 9999;
 }
 
 .toast-message {
@@ -178,6 +219,7 @@
     padding: 12px 20px;
     color: #fff;
     border-radius: 4px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     animation: slideIn 0.3s ease;
 }
 
@@ -185,13 +227,20 @@
     background-color: #10B981;
 }
 
+
+/* Mùa xanh*/ 
+
 .toast-message.error {
     background-color: #EF4444;
 }
 
+
+/* Màu đỏ */
+
 @keyframes slideIn {
     from {
-        transform: translateX(100%)
+        transform: translateX(100%);
+        opacity: 0;
     }
     to {
         transform: translateX(0);
@@ -200,7 +249,7 @@
 }
 
 .fa-spin-fast {
-    animation: fa-spin 1 infinite linear; /* thiếu s */
+    animation: fa-spin 1s infinite linear;
 }
 
 @keyframes fa-spin {
@@ -212,8 +261,37 @@
     }
 }
 
+/* 2. Style cho chữ "..." khi đang tải (Placeholder) */
+
+.loading-placeholder {
+    color: #999;
+    font-size: 0.9em;
+    font-style: italic;
+    font-weight: normal;
+}
+
+.toast-message.warning {
+    background-color: #F59E0B;
+}
+
+.toast-message {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.toast-message i {
+    font-size: 18px;
+}
+
 @media (max-width: 768px) {
     .dashboard-grid {
-        grid-template-columns: 2fr; /* sai */
+        grid-template-columns: 1fr;
+    }
+    .chart-box {
+        min-height: 250px;
+    }
+    .widget.full-width {
+        margin-top: 20px;
     }
 }
