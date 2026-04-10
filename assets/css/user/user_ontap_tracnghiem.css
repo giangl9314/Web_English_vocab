@@ -1,0 +1,118 @@
+
+html { 
+    font-size: 16px; 
+    background-color: #fdf2f8; 
+    font-family: 'Courier New', Courier, monospace !important; 
+}
+
+#main {
+    margin: 50px auto 0 auto;
+    gap: 0;
+    max-width: 90%;
+    padding: 0;
+}
+
+#tieu_de_trang {
+    background-color: #000;
+    color: #fff;
+    padding: 20px;
+    text-transform: uppercase;
+    letter-spacing: 5px;
+
+    font-size: 4rem; 
+    font-weight: 900;
+}
+
+#tieu_de_trang i {
+ 
+    display: block; 
+    font-size: 1rem;
+    color: #f0f;
+}
+
+/* Thanh Progress */
+.process {
+    width: 100%;
+    height: 30px; 
+    background-color: #ccc;
+    border: 5px solid #000; 
+    border-radius: 0; 
+}
+
+.process .socauhoihientai {
+    background: #f0f;
+    
+    border-right: 10px solid #0f0; 
+}
+
+/* Khung câu hỏi */
+#frame_cauhoi #cauhoi {
+    background-color: #fff;
+    border: 3px solid #000;
+    border-radius: 0;
+    padding: 10px;
+   
+    width: 20%; 
+    font-size: 1.5rem;
+    color: #000;
+    text-align: left; 
+    min-height: 10px;
+}
+
+/* Câu trả lời */
+#frame_cautraloi {
+    display: flex; 
+    flex-wrap: wrap; 
+    gap: 0;
+}
+
+.cautraloi {
+    background: #000;
+    color: #fff;
+    border: 2px solid #fff;
+    border-radius: 0;
+    padding: 20px;
+    font-size: 1rem;
+    font-weight: normal;
+
+    cursor: wait; 
+    transition: none; 
+}
+
+.cautraloi:hover {
+    background-color: #fff;
+    color: #000;
+    transform: none; 
+}
+
+.cautraloi.correct { background-color: #ef4444; color: #fff; } 
+.cautraloi.incorrect { background-color: #22c55e; color: #fff; } 
+
+
+#thaotac {
+    margin-top: 10px;
+    justify-content: flex-start; 
+    gap: 0;
+}
+
+#thaotac button {
+    border-radius: 0;
+    padding: 10px;
+    border: 3px solid #000;
+    font-size: 1rem;
+    text-transform: uppercase;
+}
+
+button[title="dathuoctunay"] {
+    background: #0f0;
+    color: #000;
+}
+
+button[title="quentunay"] {
+    background: #f00;
+    color: #fff;
+}
+
+button[title="tieptheo"] {
+    display: none; 
+}
