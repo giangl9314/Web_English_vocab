@@ -3,16 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../../asset/css/defaut/body.css">
+    <link rel="stylesheet" href="../../assets/css/defaut/body.css">
     <link rel="stylesheet" href="../../assets/css/user/user_ontap_tracnghiem.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <title>Ôn Tập Trắc Nghiệm - VOCAB</title>
 </head>
 <body>
+    <!-- menu user -->
     <div id="menu_user"></div>
+
+    <!-- header user -->
     <div id="header_user"></div>
 
-    <div id="content">
+    <!-- content -->
+     <div id="content">
         <div id="tieu_de_trang">
             <i class="fa-solid fa-question"></i>
             <p>Trắc nghiệm</p>
@@ -29,7 +33,7 @@
             <div id="frame_cautraloi">
                 <span class="cautraloi" id="a1">hello</span>
                 <span class="cautraloi" id="a2">good night</span>
-                <span class="cautraloi" id="a2">good morning</span>
+                <span class="cautraloi" id="a3">good morning</span>
                 <span class="cautraloi" id="a4">fine</span>
             </div>
 
@@ -37,10 +41,18 @@
                 <button id="dathuoctunay" title="dathuoctunay">Đã thuộc từ này</button>
                 <button id="quentunay" title="quentunay">Quên từ này</button>
                 <button id="tieptheo" title="tieptheo">
-                    <a href="#">Tiếp theo <i class="fa-solid fa-arrow-right"></i></a>
+                    <a href="">Tiếp theo <i class="fa-solid fa-arrow-right"></i></a>
                 </button>
             </div>
         </div>
-    </div>
+    <!-- Script để load menu và header -->
+     <!-- Cross-tab Sync Scripts -->
+     <script src="../../assets/js/defaut/sync_validator.js"></script>
+     <script src="../../assets/js/defaut/sync_manager.js"></script>
+     <script src="../../assets/js/defaut/sync_helpers.js"></script>
+     
+     <script src="../../assets/js/defaut/auth_check.js"></script>
+    <script src="../../assets/js/user/layout_user.js"></script>
+    <script src="../../assets/js/user/user_ontap_tracnghiem.js"></script>
 </body>
 </html>
