@@ -219,7 +219,39 @@
     border-radius: 50px;
 }
 
+/* ===== BUTTON Continue ===== */
+.btn-continue {
+    background: #4A90E2;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 10px;
+    font-size: 14px;
+    margin-top: auto;
+    cursor: pointer;
+    transition: 0.2s;
+}
 
+.btn-continue:hover {
+    background: #3a7ac5;
+}
+
+/* ==== GOAL SECTION ==== */
+.goal-section {
+    margin-top: 40px;
+}
+
+.section-title {
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.goal-text {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
 
 /* ===== RESPONSIVE ===== */
 @media (max-width: 900px) {

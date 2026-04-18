@@ -371,7 +371,16 @@
     flex-shrink: 0;
 }
 
-
+#main .nut-icon {
+    background-color: transparent;
+    border: none;
+    width: 2rem;
+    height: 2rem;
+    cursor: pointer;
+    font-size: 1.25rem;
+    color: #555;
+    transition: color 0.3s;
+}
 
 #main .nut-icon:hover {
     color: #000;
