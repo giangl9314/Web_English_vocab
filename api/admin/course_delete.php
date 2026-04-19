@@ -1,7 +1,4 @@
 <?php
-/**
- * HỆ THỐNG QUẢN TRỊ TRUNG TÂM - VOCAB PROJECT
- */
 
 session_start();
 header('Content-Type: application/json; charset=utf-8');
