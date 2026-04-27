@@ -1,128 +1,139 @@
 <?php
 /**
- * API TẠO KHÓA HỌC MỚI
+ * API TẠO KHÓA HỌC MỚI (Full CORS Support)
+ * Endpoint: api/create-course.php
+ * Method: POST
  */
 
-// --- CORS ---
+// --- BẮT ĐẦU: CẤU HÌNH CORS CHUẨN ---
+// Cho phép tất cả nguồn truy cập
 header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
-header('Access-Control-Allow-Headers: Content-Type, Authorization');
 
+// Cho phép các method được sử dụng
+header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
+
+// Cho phép các headers tùy chỉnh (như Content-Type gửi JSON)
+header('Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With');
+
+// Xử lý Preflight Request (Trình duyệt hỏi đường trước khi gửi dữ liệu thật)
 if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
-    exit();
+    exit(); // Dừng ngay, không chạy tiếp code bên dưới
 }
 
-// tắt lỗi cho gọn
+// --- KẾT THÚC: CẤU HÌNH CORS CHUẨN ---
+
+
+// Tắt lỗi rác HTML (Giữ nguyên theo yêu cầu)
 error_reporting(0);
 ini_set('display_errors', 0);
 
-// trả json
+// Set header JSON cho response
 header('Content-Type: application/json; charset=utf-8');
 
 require_once '../config/config.php';
 require_once '../includes/notification_helper.php';
 
 try {
-
-    // chỉ cho POST
-    if ($_SERVER['REQUEST_METHOD'] != 'POST') {
-        throw new Exception('Sai method');
+    // Chỉ nhận POST
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+        throw new Exception('Method Not Allowed');
     }
 
-    // lấy user từ session
+    // ✅ BẢO MẬT: CHỈ lấy user_id từ session - KHÔNG cho phép client gửi
     $user_id = api_require_login();
 
     $input = json_decode(file_get_contents('php://input'), true);
+    
+    // // Validate dữ liệu
+    // // Logic cũ: Ưu tiên lấy user_id từ input client gửi lên (nếu có)
+    // if (isset($input['user_id'])) {
+    //     $user_id = intval($input['user_id']);
+    // }
 
-    // lấy dữ liệu kiểu đơn giản
-    $course_name = $input['course_name'] ?? '';
-    $description = $input['description'] ?? '';
-    $visibility = $input['visibility'] ?? 'public';
-    $tags = $input['tags'] ?? [];
+    // SECURITY: Không chấp nhận user_id từ client (đã bỏ)
+    // Client KHÔNG được phép gửi user_id để tránh privilege escalation
+    
+    $course_name = isset($input['course_name']) ? trim($input['course_name']) : '';
+    $description = isset($input['description']) ? trim($input['description']) : '';
+    $visibility = isset($input['visibility']) ? $input['visibility'] : 'public';
+    $tags = isset($input['tags']) ? $input['tags'] : []; 
 
-    if ($course_name == '' || !$user_id) {
-        throw new Exception('Thiếu dữ liệu');
+    if (empty($user_id) || $user_id <= 0 || empty($course_name)) {
+        throw new Exception('Tên khóa học không được để trống và User ID phải hợp lệ.');
     }
 
-    // bắt đầu transaction
+    // Bắt đầu Transaction
     $conn->begin_transaction();
 
-    // insert course
-    $sql = "INSERT INTO course (course_name, description, visibility, create_by, created_at, hide)
-            VALUES (?, ?, ?, ?, NOW(), 0)";
-
+    // 1. Insert vào bảng course
+    $sql = "INSERT INTO course (course_name, description, visibility, create_by, created_at, hide) VALUES (?, ?, ?, ?, NOW(), 0)";
     $stmt = $conn->prepare($sql);
-
-    if (!$stmt) {
-        throw new Exception('SQL lỗi');
-    }
-
+    
+    if (!$stmt) throw new Exception("Lỗi SQL: " . $conn->error);
+    
     $stmt->bind_param("sssi", $course_name, $description, $visibility, $user_id);
+    
+    if (!$stmt->execute()) throw new Exception("Lỗi thực thi: " . $stmt->error);
+    
+    $new_course_id = $stmt->insert_id;
 
-    if (!$stmt->execute()) {
-        throw new Exception('Insert lỗi');
+    if ($new_course_id == 0) {
+        throw new Exception("Tạo thành công nhưng ID trả về bằng 0. Hãy kiểm tra AUTO_INCREMENT trong Database.");
     }
 
-    $course_id = $stmt->insert_id;
-
-    // xử lý tags (viết đơn giản)
+    // 2. Xử lý Tags
     if (!empty($tags)) {
+        $tags = array_unique(array_filter($tags));
+        
+        $stmtCheck = $conn->prepare("SELECT tag_id FROM tag WHERE tag_name = ?");
+        $stmtInsTag = $conn->prepare("INSERT INTO tag (tag_name) VALUES (?)");
+        $stmtLink = $conn->prepare("INSERT IGNORE INTO course_tag (course_id, tag_id) VALUES (?, ?)");
 
-        $stmt1 = $conn->prepare("SELECT tag_id FROM tag WHERE tag_name = ?");
-        $stmt2 = $conn->prepare("INSERT INTO tag (tag_name) VALUES (?)");
-        $stmt3 = $conn->prepare("INSERT INTO course_tag (course_id, tag_id) VALUES (?, ?)");
+        foreach ($tags as $tagName) {
+            $tagName = trim($tagName);
+            if (empty($tagName)) continue;
 
-        foreach ($tags as $t) {
-
-            $t = trim($t);
-            if ($t == '') continue;
-
-            $tag_id = 0;
-
-            // check tồn tại
-            $stmt1->bind_param("s", $t);
-            $stmt1->execute();
-            $res = $stmt1->get_result();
-
-            if ($row = $res->fetch_assoc()) {
-                $tag_id = $row['tag_id'];
+            $tagId = 0;
+            // Kiểm tra tag
+            $stmtCheck->bind_param("s", $tagName);
+            $stmtCheck->execute();
+            $resTag = $stmtCheck->get_result();
+            
+            if ($row = $resTag->fetch_assoc()) {
+                $tagId = $row['tag_id'];
             } else {
-                // tạo mới
-                $stmt2->bind_param("s", $t);
-                if ($stmt2->execute()) {
-                    $tag_id = $stmt2->insert_id;
+                // Tạo mới
+                $stmtInsTag->bind_param("s", $tagName);
+                if ($stmtInsTag->execute()) {
+                    $tagId = $stmtInsTag->insert_id;
                 }
             }
 
-            // gán vào course
-            if ($tag_id > 0) {
-                $stmt3->bind_param("ii", $course_id, $tag_id);
-                $stmt3->execute();
+            // Link vào khóa học
+            if ($tagId > 0) {
+                $stmtLink->bind_param("ii", $new_course_id, $tagId);
+                $stmtLink->execute();
             }
         }
     }
 
     $conn->commit();
-
-    // tạo thông báo
+    
+    // Tạo thông báo cho user
     notifyCourseCreated($conn, $user_id, $course_name);
 
+    // 3. Trả về kết quả JSON
     echo json_encode([
-        'success' => true,
-        'message' => 'Tạo thành công',
-        'course_id' => $course_id
+        'success' => true, 
+        'message' => 'Tạo khóa học thành công!',
+        'course_id' => $new_course_id 
     ]);
 
 } catch (Exception $e) {
-
-    if (isset($conn)) {
-        $conn->rollback();
-    }
-
-    echo json_encode([
-        'success' => false,
-        'error' => $e->getMessage()
-    ]);
+    if (isset($conn)) $conn->rollback();
+    http_response_code(400);
+    echo json_encode(['success' => false, 'error' => $e->getMessage()]);
+} finally {
+    if (isset($conn)) $conn->close();
 }
-
 ?>
