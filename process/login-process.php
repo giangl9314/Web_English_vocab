@@ -14,7 +14,7 @@ checkLoginRateLimit();
 // Chỉ chấp nhận POST request
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     set_message('Phương thức không hợp lệ!', MSG_ERROR);
-    redirect('/VOCAB/pages/dangnhap.html');
+    redirect('/WEB_ENGLISH_VOCAB/pages/dangnhap.html');
 }
 
 // Lấy dữ liệu từ form
@@ -40,7 +40,7 @@ if (empty($password)) {
 if (!empty($errors)) {
     $_SESSION['login_errors'] = $errors;
     $_SESSION['login_email'] = $email;
-    redirect('/VOCAB/pages/dangnhap.html');
+    redirect('/WEB_ENGLISH_VOCAB/pages/dangnhap.html');
 }
 
 // Kiểm tra thông tin đăng nhập
@@ -73,13 +73,13 @@ try {
     if (!verify_password($password, $user['password'])) {
         set_message('Mật khẩu không chính xác! Vui lòng thử lại.', MSG_ERROR);
         $_SESSION['login_email'] = $email;
-        redirect('/VOCAB/pages/dangnhap.html');
+        redirect('/WEB_ENGLISH_VOCAB/pages/dangnhap.html');
     }
     
     // Kiểm tra trạng thái tài khoản
     if ($user['status'] != STATUS_ACTIVE) {
         set_message('Tài khoản của bạn đã bị vô hiệu hóa!', MSG_ERROR);
-        redirect('/VOCAB/pages/dangnhap.html');
+        redirect('/WEB_ENGLISH_VOCAB/pages/dangnhap.html');
     }
     
     // Kiểm tra email đã được xác thực chưa
@@ -91,7 +91,7 @@ try {
             'name' => $user['name']
         ];
         set_message('Email của bạn chưa được xác thực. Vui lòng kiểm tra email để lấy mã xác thực.', MSG_WARNING);
-        redirect('/VOCAB/auth/verify-email.php');
+        redirect('/WEB_ENGLISH_VOCAB/auth/verify-email.php');
     }
     
     // Đăng nhập thành công - Lưu thông tin vào session
@@ -114,16 +114,16 @@ try {
     // Redirect theo role
     if ($user['role'] === ROLE_ADMIN) {
         set_message('Chào mừng Admin ' . $user['name'] . '!', MSG_SUCCESS);
-        redirect('/VOCAB/pages/admin/trangchu_admin.html');
+        redirect('/WEB_ENGLISH_VOCAB/pages/admin/trangchu_admin.html');
     } else {
         set_message('Đăng nhập thành công! Chào mừng ' . $user['name'] . '!', MSG_SUCCESS);
-        redirect('/VOCAB/pages/user/user_Dashboard.html');
+        redirect('/WEB_ENGLISH_VOCAB/pages/user/user_Dashboard.html');
     }
     
 } catch (Exception $e) {
     log_error($e->getMessage());
     set_message('Có lỗi xảy ra khi đăng nhập. Vui lòng thử lại!', MSG_ERROR);
-    redirect('/VOCAB/pages/dangnhap.html');
+    redirect('/WEB_ENGLISH_VOCAB/pages/dangnhap.html');
 }
 
 ?>
