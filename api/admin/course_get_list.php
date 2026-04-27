@@ -1,34 +1,31 @@
 <?php
 // FILE: api/admin/course_get_list.php
-session_start();
+error_reporting(E_ALL);
+ini_set('display_errors', 0);
+ob_start();
+
+header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json; charset=utf-8');
 
 require_once '../../config/config.php';
+require_once '../../includes/auth_check.php'; 
 
 try {
-    // 1. KIỂM TRA QUYỀN TRUY CẬP
-    if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
-        http_response_code(403);
-        throw new Exception("Bạn không có quyền truy cập.");
-    }
+    if (session_status() === PHP_SESSION_NONE) session_start();
+    if (!check_session_timeout() || !validate_session_security()) throw new Exception("Phiên hết hạn.");
+    if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') throw new Exception("Không quyền.");
 
     $admin_id = $_SESSION['user_id'];
-    
-    // 2. LẤY VÀ LÀM SẠCH THAM SỐ ĐẦU VÀO
-    $page    = max(1, (int)($_GET['page'] ?? 1));
-    $limit   = 10;
-    $offset  = ($page - 1) * $limit;
-    $search  = trim($_GET['search'] ?? '');
-    $status  = trim($_GET['status'] ?? '');
-    
-    // Whitelist Sort để chống SQL Injection (Chỉ cho phép sắp xếp theo các cột này)
-    $allowed_sort = ['created_at', 'course_name', 'course_code', 'visibility'];
-    $sort_by      = in_array($_GET['sort_by'] ?? '', $allowed_sort) ? $_GET['sort_by'] : 'created_at';
-    $order        = (strtoupper($_GET['order'] ?? '') === 'ASC') ? 'ASC' : 'DESC';
+    $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+    $limit = 10;
+    $offset = ($page - 1) * $limit;
+    $search = isset($_GET['search']) ? trim($_GET['search']) : '';
+    $status = isset($_GET['status']) ? trim($_GET['status']) : '';
+    $sort_by = isset($_GET['sort_by']) ? $_GET['sort_by'] : 'created_at';
+    $order = isset($_GET['order']) && strtoupper($_GET['order']) === 'ASC' ? 'ASC' : 'DESC';
 
-    // 3. XÂY DỰNG ĐIỀU KIỆN WHERE
-    // Mặc định hide = 0 (Chỉ lấy các khóa học đã hoàn tất/finalize)
-    $where = "WHERE c.hide = 0";
+    // CHỈ LẤY KHÓA HỌC ĐÃ HOÀN TẤT (HIDE = 0)
+    $where = "WHERE c.hide = 0"; 
     $params = [];
     $types = "";
 
@@ -46,7 +43,6 @@ try {
         $types .= "s";
     }
 
-    // 4. ĐẾM TỔNG SỐ BẢN GHI (Cho phân trang)
     $sqlCount = "SELECT COUNT(*) as total FROM course c $where";
     $stmtCount = $conn->prepare($sqlCount);
     if (!empty($params)) $stmtCount->bind_param($types, ...$params);
@@ -54,10 +50,8 @@ try {
     $totalRecords = $stmtCount->get_result()->fetch_assoc()['total'];
     $totalPages = ceil($totalRecords / $limit);
 
-    // 5. LẤY DỮ LIỆU CHI TIẾT
-    // Sử dụng GROUP_CONCAT để lấy danh sách tags gọn gàng
     $sqlData = "SELECT c.course_id, c.course_code, c.course_name, c.visibility, c.created_at, c.description, c.create_by,
-                       IFNULL(u.name, 'Hệ thống') as author_name,
+                       IFNULL(u.name, 'Admin') as author_name,
                        GROUP_CONCAT(t.tag_name SEPARATOR ', ') as tags
                 FROM course c
                 LEFT JOIN user u ON c.create_by = u.user_id
@@ -68,43 +62,32 @@ try {
                 ORDER BY c.$sort_by $order
                 LIMIT ?, ?";
     
-    // Thêm tham số cho LIMIT
-    $dataParams = $params;
-    $dataParams[] = $offset; $dataParams[] = $limit;
-    $dataTypes = $types . "ii";
+    $params[] = $offset; $params[] = $limit;
+    $types .= "ii";
 
     $stmt = $conn->prepare($sqlData);
-    $stmt->bind_param($dataTypes, ...$dataParams);
+    $stmt->bind_param($types, ...$params);
     $stmt->execute();
     $data = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 
-    // 6. XỬ LÝ LOGIC PHÂN QUYỀN RIÊNG BIỆT (FRONTEND DÙNG)
+    // Thêm thông tin quyền chỉnh sửa từ vựng
     foreach ($data as &$course) {
-        $is_owner = ($course['create_by'] == $admin_id);
+        $is_admin_course = ($course['create_by'] == $admin_id);
         $is_public = ($course['visibility'] === 'public');
-        
-        // Logic: Có thể sửa từ vựng nếu là chủ sở hữu HOẶC khóa học đó ở chế độ công khai
-        $course['can_edit_vocab'] = ($is_owner || $is_public);
-        
-        // Làm sạch dữ liệu tránh null rác
-        $course['tags'] = $course['tags'] ?: '';
+        // Có thể chỉnh sửa nếu: (1) Admin tạo, hoặc (2) Khóa học công khai của user
+        $course['can_edit_vocab'] = $is_admin_course || $is_public;
     }
 
-    // 7. TRẢ KẾT QUẢ
+    ob_clean();
     echo json_encode([
         'status' => 'success',
         'data' => $data,
-        'pagination' => [
-            'current_page' => $page,
-            'total_pages' => $totalPages,
-            'total_records' => (int)$totalRecords
-        ]
+        'pagination' => ['current_page' => $page, 'total_pages' => $totalPages, 'total_records' => $totalRecords]
     ]);
 
 } catch (Exception $e) {
-    http_response_code(http_response_code() === 200 ? 500 : http_response_code());
-    echo json_encode([
-        'status' => 'error',
-        'message' => $e->getMessage()
-    ]);
+    ob_clean();
+    http_response_code(500);
+    echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
 }
+?>

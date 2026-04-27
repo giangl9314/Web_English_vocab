@@ -1,73 +1,92 @@
 <?php
 /**
  * API: api/admin/log_export.php
- * Chức năng: Xuất lịch sử hoạt động Admin ra file CSV (Excel)
- * Thực hiện bởi: Giang & Nhóm 7
  */
 
+// 1. Khởi động Session (Để lấy ID Admin)
 session_start();
 
-// 1. Kiểm tra quyền truy cập (Quan trọng nhất)
-if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
-    die("Truy cập bị từ chối.");
-}
-
-// 2. Cài đặt hệ thống
-date_default_timezone_set('Asia/Ho_Chi_Minh');
-require_once '../../config/config.php'; // Sử dụng config chung của dự án
-require_once '../../includes/log_helper.php';
-
-// Xóa sạch bộ nhớ đệm để tránh ký tự thừa dính vào file CSV
+// 2. Xóa sạch bộ nhớ đệm
 while (ob_get_level()) ob_end_clean();
 
-// 3. Ghi log hành động xuất file
-if (function_exists('writeAdminLog')) {
-    $log_action = "Xuất báo cáo lịch sử hệ thống (CSV)";
-    if (!empty($_GET['start_date']) || !empty($_GET['search'])) {
-        $log_action .= " [Có bộ lọc]";
-    }
-    writeAdminLog($conn, $_SESSION['user_id'], $log_action, 0);
+// 3. Cài đặt múi giờ
+date_default_timezone_set('Asia/Ho_Chi_Minh');
+
+// 4. Kết nối Database
+$base_path = dirname(__DIR__, 2); // Thư mục gốc dự án
+$config_path = $base_path . '/config/database.php';
+
+// Fallback nếu chạy trên server khác cấu trúc
+if (!file_exists($config_path)) {
+    $config_path = $_SERVER['DOCUMENT_ROOT'] . '/VOCAB/config/database.php';
+    $base_path = $_SERVER['DOCUMENT_ROOT'] . '/VOCAB'; // Cập nhật lại đường dẫn gốc
 }
 
-// 4. Thiết lập Header tải file
-$filename = "Export_Log_" . date('Ymd_His') . ".csv";
+if (file_exists($config_path)) {
+    require_once $config_path;
+} else {
+    die("Lỗi config.");
+}
+
+// --- [MỚI] INCLUDE FILE LOG HELPER ---
+$log_helper_path = $base_path . '/includes/log_helper.php';
+if (file_exists($log_helper_path)) {
+    require_once $log_helper_path;
+}
+// -------------------------------------
+
+if (!isset($conn)) die("Lỗi kết nối.");
+$conn->set_charset("utf8mb4");
+
+// Ghi log ngay khi kết nối DB thành công
+if (isset($_SESSION['user_id']) && function_exists('writeAdminLog')) {
+    $current_admin_id = $_SESSION['user_id'];
+    
+    // Tạo nội dung log chi tiết (VD: Xuất báo cáo từ ngày A đến ngày B)
+    $log_action = "Xuất báo cáo lịch sử (Excel)";
+    if (!empty($_GET['start_date']) || !empty($_GET['end_date'])) {
+        $log_action .= " [Lọc thời gian]";
+    }
+    
+    // Gọi hàm ghi log (Target ID để 0 hoặc null vì không tác động cụ thể lên ai)
+    writeAdminLog($conn, $current_admin_id, $log_action, 0);
+}
+// ----------------------------------
+
+// 5. Thiết lập Header để tải file
+$filename = "Lich_su_" . date('Y-m-d_H-i-s') . ".csv";
 header('Content-Type: text/csv; charset=utf-8');
 header('Content-Disposition: attachment; filename="' . $filename . '"');
+header('Pragma: no-cache');
+header('Expires: 0');
 
-// 5. Mở luồng ghi và xử lý Font Tiếng Việt
+// Mở luồng ghi
 $output = fopen('php://output', 'w');
-fprintf($output, chr(0xEF).chr(0xBB).chr(0xBF)); // Thêm BOM để Excel không lỗi font Tiếng Việt
 
-// Tiêu đề cột
-fputcsv($output, ['ID', 'Quản trị viên', 'Hành động', 'ID Đối tượng', 'Thời gian', 'Địa chỉ IP', 'Thiết bị']);
+// Thêm BOM để Excel hiển thị Tiếng Việt không bị lỗi font
+fprintf($output, chr(0xEF).chr(0xBB).chr(0xBF));
 
-// 6. Xây dựng truy vấn an toàn (Prepared Statement)
+// Tiêu đề cột (Đầy đủ các cột)
+fputcsv($output, ['ID Log', 'Admin', 'Hành động', 'Đối tượng ID', 'Thời gian', 'IP', 'Thiết bị']);
+
+// 6. Xử lý lọc (Giống hệt file get_list)
 $where = " WHERE 1=1 ";
-$params = [];
-$types = "";
-
 if (!empty($_GET['search'])) {
-    $searchTerm = "%" . trim($_GET['search']) . "%";
-    $where .= " AND (l.action LIKE ? OR u.name LIKE ? OR l.ip_address LIKE ?)";
-    $params[] = $searchTerm; $params[] = $searchTerm; $params[] = $searchTerm;
-    $types .= "sss";
+    $s = $conn->real_escape_string(trim($_GET['search']));
+    // Join bảng user để tìm theo tên Admin
+    $where .= " AND (l.action LIKE '%$s%' OR l.admin_id LIKE '%$s%' OR l.target_id LIKE '%$s%' OR u.name LIKE '%$s%') ";
 }
-
 if (!empty($_GET['start_date'])) {
-    $where .= " AND DATE(l.created_at) >= ?";
-    $params[] = $_GET['start_date'];
-    $types .= "s";
+    $where .= " AND DATE(l.created_at) >= '" . $conn->real_escape_string($_GET['start_date']) . "' ";
 }
-
 if (!empty($_GET['end_date'])) {
-    $where .= " AND DATE(l.created_at) <= ?";
-    $params[] = $_GET['end_date'];
-    $types .= "s";
+    $where .= " AND DATE(l.created_at) <= '" . $conn->real_escape_string($_GET['end_date']) . "' ";
 }
 
+// 7. Query lấy dữ liệu
 $sql = "SELECT 
             l.log_id, 
-            IFNULL(u.name, 'Hệ thống') as admin_name, 
+            IFNULL(u.name, CONCAT('ID ', l.admin_id)) as admin_name, 
             l.action, 
             l.target_id, 
             l.created_at,
@@ -78,39 +97,25 @@ $sql = "SELECT
         $where 
         ORDER BY l.created_at DESC";
 
-$stmt = $conn->prepare($sql);
-if ($types) {
-    $stmt->bind_param($types, ...$params);
-}
-$stmt->execute();
-$result = $stmt->get_result();
+$result = $conn->query($sql);
 
-// 7. Ghi dữ liệu vào CSV
 if ($result) {
     while ($row = $result->fetch_assoc()) {
-        // Định dạng lại ngày tháng cho Excel dễ đọc (YYYY-MM-DD HH:MM:SS)
-        $row['created_at'] = date('d/m/Y H:i', strtotime($row['created_at']));
         
-        // Rút gọn thông tin thiết bị (User Agent) cho gọn file
-        $ua = $row['user_agent'];
-        if (strpos($ua, 'Windows') !== false) $device = "Windows";
-        elseif (strpos($ua, 'Android') !== false) $device = "Android";
-        elseif (strpos($ua, 'iPhone') !== false) $device = "iPhone";
-        else $device = "Khác";
-        
-        $row['user_agent'] = $device;
 
-        fputcsv($output, [
-            $row['log_id'],
-            $row['admin_name'],
-            $row['action'],
-            $row['target_id'] ?: '-',
-            $row['created_at'],
-            $row['ip_address'] ?: '-',
-            $row['user_agent']
-        ]);
+        $cleanDate = "\t" . date('d/m/Y H:i:s', strtotime($row['created_at']));
+        $row['created_at'] = $cleanDate;
+        
+        // Xử lý IP (nếu null thì hiện dấu -)
+        if (empty($row['ip_address'])) $row['ip_address'] = '-';
+
+        // Xử lý User Agent (nếu null thì hiện -)
+        if (empty($row['user_agent'])) $row['user_agent'] = '-';
+        
+        fputcsv($output, $row);
     }
 }
 
 fclose($output);
 exit();
+?>
