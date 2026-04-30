@@ -153,7 +153,7 @@
 ## 📁 Cấu trúc thư mục
 
 ```
-VOCAB/
+WEB_ENGLISH_VOCAB/
 │
 ├── 📂 api/                          # REST API Endpoints
 │   ├── get-words.php                # Lấy danh sách từ vựng
@@ -327,12 +327,12 @@ Cập nhật thông tin OAuth trong `.env`:
 # Google OAuth
 GOOGLE_CLIENT_ID=your_google_client_id
 GOOGLE_CLIENT_SECRET=your_google_client_secret
-GOOGLE_REDIRECT_URI=http://localhost/VOCAB/auth/google-callback.php
+GOOGLE_REDIRECT_URI=http://localhost/WEB_ENGLISH_VOCAB/auth/google-callback.php
 
 # Facebook OAuth
 FACEBOOK_APP_ID=your_facebook_app_id
 FACEBOOK_APP_SECRET=your_facebook_app_secret
-FACEBOOK_REDIRECT_URI=http://localhost/VOCAB/auth/facebook-callback.php
+FACEBOOK_REDIRECT_URI=http://localhost/WEB_ENGLISH_VOCAB/auth/facebook-callback.php
 ```
 
 > **Lưu ý**: Nếu không dùng OAuth, bạn vẫn có thể đăng nhập bằng Email/Password bình thường.
@@ -519,7 +519,7 @@ Hầu hết API yêu cầu user đã đăng nhập. Session được kiểm tra 
 ### 📌 Base URL
 
 ```
-http://localhost/VOCAB/api/
+http://localhost/WEB_ENGLISH_VOCAB/api/
 ```
 
 ### 🔑 Common Headers
@@ -822,7 +822,7 @@ Mọi đóng góp đều được hoan nghênh! Để đóng góp:
 
 ### 🐛 Báo lỗi
 
-Nếu phát hiện lỗi, vui lòng tạo [Issue](https://github.com/yourusername/VOCAB/issues) với:
+Nếu phát hiện lỗi, vui lòng tạo [Issue](https://github.com/yourusername/WEB_ENGLISH_VOCAB/issues) với:
 
 - Mô tả lỗi
 - Các bước tái hiện

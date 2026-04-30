@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     
     // === CẤU HÌNH ===
-    const API_BASE_URL = 'http://localhost/VOCAB/api'; 
+    const API_BASE_URL = 'http://localhost/WEB_ENGLISH_VOCAB/api'; 
     const USER_ID = localStorage.getItem('user_id'); 
 
     // DOM ELEMENTS

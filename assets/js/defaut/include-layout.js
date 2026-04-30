@@ -123,7 +123,7 @@ async function(){
             const href = link.getAttribute('href');
             
             // Kiểm tra nếu href khớp với current path
-            if (href && (currentPath.endsWith(href) || currentPath.includes(href.replace('/VOCAB/', '')))) {
+            if (href && (currentPath.endsWith(href) || currentPath.includes(href.replace('/WEB_ENGLISH_VOCAB/', '')))) {
                 link.classList.add('active');
             }
         });

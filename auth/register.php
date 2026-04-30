@@ -55,7 +55,7 @@ unset($_SESSION['register_data']);
                 </div>
             <?php endif; ?>
 
-            <form method="POST" action="/VOCAB/process/register-process.php">
+            <form method="POST" action="/WEB_ENGLISH_VOCAB/process/register-process.php">
                 <div class="input-group">
                     <div class="name">
                         <label for="name">Tên đầy đủ</label>

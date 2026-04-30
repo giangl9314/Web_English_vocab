@@ -1,4 +1,4 @@
-RewriteEngine On RewriteBase /VOCAB/pages/admin/ # Không rewrite nếu đã là index.php 
+RewriteEngine On RewriteBase /WEB_ENGLISH_VOCAB/pages/admin/ # Không rewrite nếu đã là index.php 
 RewriteCond %{REQUEST_URI} index\.php [NC] 
 RewriteRule ^ - [L] 
  
