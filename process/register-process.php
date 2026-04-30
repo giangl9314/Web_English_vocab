@@ -100,7 +100,7 @@ $verification_expire = date('Y-m-d H:i:s', strtotime('+30 minutes')); // Hết h
 
 // Thêm user vào database (chưa xác thực email)
 try {
-    $stmt = $conn->prepare("INSERT INTO user (name, email, password, role, status, email_verified, reset_code, reset_code_expire) VALUES (?, ?, ?, ?, ?, 0, ?, ?)");
+    $stmt = $conn->prepare("INSERT INTO user (name, email, password, role, status, email_verified, reset_code, reset_code_expire) VALUES (?, ?, ?, ?, ?, 1, ?, ?)");
     $role = ROLE_USER;
     $status = STATUS_ACTIVE;
     $stmt->bind_param("sssssss", $name, $email, $password_hash, $role, $status, $verification_code, $verification_expire);
