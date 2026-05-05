@@ -31,7 +31,7 @@ try {
     $conn->begin_transaction();
 
     // 1. Tạo khóa học (MẶC ĐỊNH HIDE = 1 ĐỂ TẠO DRAFT)
-    $stmt = $conn->prepare("INSERT INTO course (course_name, description, visibility, create_by, created_at, hide) VALUES (?, ?, ?, ?, NOW(), 1)");
+    $stmt = $conn->prepare("INSERT INTO course (course_name, description, visibility, create_by, created_at, hide) VALUES (?, ?, ?, ?, NOW(), 0)");
     $stmt->bind_param("sssi", $name, $desc, $status, $admin_id);
     
     if (!$stmt->execute()) throw new Exception("Lỗi DB: " . $stmt->error);
